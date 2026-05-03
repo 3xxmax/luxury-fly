@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>SKYN - Destinations</title>
+  <link rel="stylesheet" href="test.css" />
+</head>
+<body>
+  <button class="open-btn" onclick="openSidebar()">☰</button>
+  
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+      <a href="voyage html.html">Accueil</a>
+      <a href="reservation.html">voyage</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  
+    <script>
+      function openSidebar() {
+        document.getElementById("sidebar").style.width = "300px";
+      }
+  
+      function closeSidebar() {
+        document.getElementById("sidebar").style.width = "0";
+      }
+    </script>
+
+
+ 
+
+  <div class="search-container">
+    <input type="text" id="search" placeholder="Rechercher une destination..." />
+  </div>
+  
+
+  <section class="destinations">
+    <div class="card">
+      <a href="reservation_paris.html">
+        <img src="paris.jpg" alt="Paris" />
+        <div class="overlay">
+          <h2>Paris</h2>
+          <p>À partir de 499€</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card">
+      <a href="reservation_newyork.html">
+        <img src="newyork.jpg" alt="New York" />
+        <div class="overlay">
+          <h2>New York</h2>
+          <p>À partir de 799€</p>
+        </div>
+      </a>
+    </div>
+
+    <div class="card">
+        <a href="reservation_espagne.html">
+          <img src="espagne.jpg" alt="espagne" />
+          <div class="overlay">
+            <h2>Espagne</h2>
+            <p>À partir de 999€</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="reservation_suisse.html">
+          <img src="suisse.jpg" alt="Suisse" />
+          <div class="overlay">
+            <h2>Suisse</h2>
+            <p>À partir de 499€</p>
+          </div>
+        </a>
+      </div>
+
+      <div class="card">
+        <a href="reservation_Dubai.html">
+          <img src="Dubai.jpg" alt="Dubai" />
+          <div class="overlay">
+            <h2>Dubai</h2>
+            <p>À partir de 1299€</p>
+          </div>
+        </a>
+      </div>
+
+    <div class="card">
+      <a href="reservation_tokyo.html">
+        <img src="tokyo.jpg" alt="Tokyo" />
+        <div class="overlay">
+          <h2>Tokyo</h2>
+          <p>À partir de 999€</p>
+        </div>
+      </a>
+    </div>
+  </section>
+
+</body>
+</html>

@@ -1,0 +1,166 @@
+body {
+    background-color: #000;
+    color: goldenrod;
+    font-family: Arial, sans-serif;
+    text-align: center;
+    margin: 0;
+    padding: 0;
+}
+
+.test{
+    color: goldenrod;
+}
+li a{
+    position: absolute;
+    text-decoration: none;
+    color: goldenrod;
+    font-size: 40px;
+    left: 400px;
+    top: 50px;
+font-weight: bold;
+
+}
+li{
+    list-style: none;
+    font-weight: bold;
+}
+.res{
+    position: absolute;
+    left: 225px;
+    top: 2px;
+}
+.con{
+    position: absolute;
+    left: 525px;
+    top: 2px;
+
+}
+
+.te{
+    color: goldenrod;
+    position: absolute;
+    font-size: 50px;
+    top: 550px;
+    left: 350px;
+    font-weight: bold;
+}
+
+
+header {
+    background-color: black;
+    padding: 20px;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+.reservation-form {
+    background-color: #111;
+    border: 2px solid goldenrod;
+    padding: 30px;
+    width: 50%;
+    margin: 50px auto;
+    border-radius: 10px;
+    box-shadow: 0 0 10px goldenrod;
+}
+
+h2 {
+    color: goldenrod;
+}
+
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+label {
+    margin: 10px 0 5px;
+    font-size: 18px;
+}
+
+input, select {
+    width: 80%;
+    padding: 10px;
+    margin: 5px 0;
+    border: 1px solid goldenrod;
+    border-radius: 5px;
+    background-color: black;
+    color: goldenrod;
+}
+
+button {
+    background-color: goldenrod;
+    color: black;
+    padding: 10px 20px;
+    font-size: 18px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+}
+
+button:hover {
+    background-color: #cda434;
+}
+.l{
+    position: absolute;
+    
+
+    ;
+}
+
+
+
+
+
+
+
+body { 
+    background-color: rgb(0, 0, 0);
+    font-family: Arial, sans-serif;
+ 
+}
+.logo{
+    position: absolute;
+    left: 450px ;
+    top: 55px;
+    width: 600px;
+    height: 600px;
+}
+.test{
+    color: goldenrod;
+}
+li a{
+    position: absolute;
+    text-decoration: none;
+    color: goldenrod;
+    font-size: 40px;
+    left: 400px;
+    top: 50px;
+font-weight: bold;
+
+}
+li{
+    list-style: none;
+    font-weight: bold;
+}
+.res{
+    position: absolute;
+    left: 225px;
+    top: 2px;
+}
+.con{
+    position: absolute;
+    left: 525px;
+    top: 2px;
+
+}
+
+.te{
+    color: goldenrod;
+    position: absolute;
+    font-size: 50px;
+    top: 550px;
+    left: 350px;
+    font-weight: bold;
+}

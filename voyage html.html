@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="voyage css.css">
+    
+</head>
+<body>
+    <img src="new voyage.jpg" class="logo">
+    
+   
+    <button class="open-btn" onclick="openSidebar()">☰</button>
+  
+    <!-- Sidebar -->
+    <div id="sidebar" class="sidebar">
+      <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+      <a href="voyage html.html">Accueil</a>
+      <a href="test.html">voyage</a>
+      <a href="contact.html">Contact</a>
+    </div>
+  
+    <script>
+      function openSidebar() {
+        document.getElementById("sidebar").style.width = "300px";
+      }
+  
+      function closeSidebar() {
+        document.getElementById("sidebar").style.width = "0";
+      }
+    </script>
+
+
+ 
+  
+    
+</body>
+</html>

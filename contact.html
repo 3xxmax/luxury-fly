@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Réservation - XTRAVEL</title>
+    <link rel="stylesheet" href="contact.css">
+
+</head>
+<body>
+    <form action="whallah.php" method="post" id="formulaire1"> 
+
+        <button class="open-btn" onclick="openSidebar()">☰</button>
+  
+        
+        <div id="sidebar" class="sidebar">
+          <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
+          <a href="voyage html.html">Accueil</a>
+          <a href="test.html">voyage</a>
+          <a href="contact.html">Contact</a>
+        </div>
+      
+        <script>
+          function openSidebar() {
+            document.getElementById("sidebar").style.width = "300px";
+          }
+      
+          function closeSidebar() {
+            document.getElementById("sidebar").style.width = "0";
+          }
+        </script>
+
+
+    
+    <section class="reservation-form">
+        <h2>Contactez-nous</h2>
+       <section class="l"> <form action="reservation_process.php" method="POST">
+            <label for="nom">Nom :</label>
+            <input type="text" id="nom" name="nom" required></section>
+
+           <section class="l"><label for="email">Email :</label>
+            <input type="email" id="email" name="email" required></section> 
+
+            <label for="Sujet">Sujet :</label>
+            <select id="Sujet" name="Sujet" required>
+                <option value="paris">Probleme de reservation</option>
+                <option value="new-york">Avis</option>
+                <option value="tokyo">Autre</option>
+            </select>
+
+            <label for="Message">Message:</label>
+            <input type="text" id="message" name="message" required>
+
+<div class="btform">
+            <button type="submit" form="formulaire1">Nous contacter</button>
+        </div>
+        </form>
+    </section>
+
+</body>
+</html>
