@@ -3,99 +3,92 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>SKYN - Destinations</title>
+  <title>LUXURY FLY - Destinations</title>
   <link rel="stylesheet" href="test.css" />
 </head>
 <body>
-  <button class="open-btn" onclick="openSidebar()">☰</button>
-  
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-      <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
-      <a href="index.html">Accueil</a>
-      <a href="reservation.html">voyage</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  
-    <script>
-      function openSidebar() {
-        document.getElementById("sidebar").style.width = "300px";
-      }
-  
-      function closeSidebar() {
-        document.getElementById("sidebar").style.width = "0";
-      }
-    </script>
 
+<button class="open-btn" id="openBtn" onclick="openSidebar()">☰</button>
 
- 
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-  <div class="search-container">
-    <input type="text" id="search" placeholder="Rechercher une destination..." />
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">✈ LUXURY FLY</span>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
   </div>
-  
+  <nav>
+    <a href="index.html"><span class="nav-icon">🏠</span> Accueil</a>
+    <a href="test.html" class="active"><span class="nav-icon">✈</span> Voyage</a>
+    <a href="contact.html"><span class="nav-icon">✉</span> Contact</a>
+  </nav>
+  <div class="sidebar-footer">LUXURY FLY © 2025</div>
+</div>
 
-  <section class="destinations">
-    <div class="card">
-      <a href="reservation_paris.html">
-        <img src="paris.jpg" alt="Paris" />
-        <div class="overlay">
-          <h2>Paris</h2>
-          <p>À partir de 499€</p>
+<div class="search-container">
+  <input type="text" id="search" placeholder="Rechercher une destination..." oninput="filtrer()" />
+</div>
+
+<section class="destinations" id="destinations">
+  <p class="chargement">Chargement des destinations...</p>
+</section>
+
+<script>
+  // ===== SIDEBAR =====
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "260px";
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("openBtn").style.display = "none";
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+    document.getElementById("openBtn").style.display = "block";
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+  // ===== CHARGEMENT DES VOYAGES =====
+  fetch("voyage.php")
+    .then(res => res.json())
+    .then(voyages => {
+      const section = document.getElementById("destinations");
+
+      if (voyages.length === 0) {
+        section.innerHTML = '<p class="chargement">Aucun voyage disponible.</p>';
+        return;
+      }
+
+      section.innerHTML = voyages.map(v => `
+        <div class="card" data-nom="${v.libelle.toLowerCase()}">
+          <a href="detail.html?id=${v.id}">
+            ${v.image
+              ? `<img src="${v.image}" alt="${v.libelle}" />`
+              : `<div class="no-img">Pas d'image</div>`
+            }
+            <div class="overlay-card">
+              <h2>${v.libelle}</h2>
+              <p>À partir de ${parseInt(v.prix).toLocaleString('fr-FR')}€</p>
+            </div>
+          </a>
         </div>
-      </a>
-    </div>
+      `).join("");
+    })
+    .catch(err => {
+      document.getElementById("destinations").innerHTML =
+        '<p class="chargement">Erreur de chargement des destinations.</p>';
+      console.error(err);
+    });
 
-    <div class="card">
-      <a href="reservation_newyork.html">
-        <img src="newyork.jpg" alt="New York" />
-        <div class="overlay">
-          <h2>New York</h2>
-          <p>À partir de 799€</p>
-        </div>
-      </a>
-    </div>
-
-    <div class="card">
-        <a href="reservation_espagne.html">
-          <img src="espagne.jpg" alt="espagne" />
-          <div class="overlay">
-            <h2>Espagne</h2>
-            <p>À partir de 999€</p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card">
-        <a href="reservation_suisse.html">
-          <img src="suisse.jpg" alt="Suisse" />
-          <div class="overlay">
-            <h2>Suisse</h2>
-            <p>À partir de 499€</p>
-          </div>
-        </a>
-      </div>
-
-      <div class="card">
-        <a href="reservation_Dubai.html">
-          <img src="Dubai.jpg" alt="Dubai" />
-          <div class="overlay">
-            <h2>Dubai</h2>
-            <p>À partir de 1299€</p>
-          </div>
-        </a>
-      </div>
-
-    <div class="card">
-      <a href="reservation_tokyo.html">
-        <img src="tokyo.jpg" alt="Tokyo" />
-        <div class="overlay">
-          <h2>Tokyo</h2>
-          <p>À partir de 999€</p>
-        </div>
-      </a>
-    </div>
-  </section>
+  // ===== RECHERCHE =====
+  function filtrer() {
+    const val = document.getElementById("search").value.toLowerCase();
+    document.querySelectorAll(".card").forEach(card => {
+      card.style.display = card.dataset.nom.includes(val) ? "block" : "none";
+    });
+  }
+</script>
 
 </body>
 </html>

@@ -1,84 +1,160 @@
+/* ===== RESET & BASE ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
 body {
-  margin: 0;
-  font-family: "Arial", sans-serif;
+  font-family: Arial, sans-serif;
   background-color: #000;
   color: goldenrod;
 }
 
+/* ===== BOUTON HAMBURGER ===== */
 .open-btn {
-  font-size: 30px;
+  font-size: 26px;
   background-color: goldenrod;
-  border-radius: 5px;
-  color: rgb(0, 0, 0);
+  border-radius: 6px;
+  color: #000;
   border: none;
   cursor: pointer;
-  position: absolute;
-  top: 20px;
-  left: 1440px;
-  z-index: 2;
-  padding: 10px 12px;
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  padding: 6px 12px;
+  z-index: 150;
+  line-height: 1;
+  transition: background 0.2s, transform 0.2s;
 }
+.open-btn:hover { background: #cda434; transform: scale(1.08); }
 
-/* Sidebar */
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.6);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+
+/* ===== SIDEBAR ===== */
 .sidebar {
   height: 100%;
   width: 0;
   position: fixed;
   right: 0;
   top: 0;
-  background-color: goldenrod;
+  background: #0a0a0a;
+  border-left: 2px solid goldenrod;
   overflow-x: hidden;
-  transition: 0.5s;
-  padding-top: 60px;
-  z-index: 3;
+  transition: width 0.4s cubic-bezier(.77, 0, .18, 1);
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
 }
 
-.sidebar a {
-  padding: 15px 30px;
-  text-decoration: none;
-  font-size: 22px;
-  color: black;
-  display: block;
+.sidebar-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(218, 165, 32, 0.3);
+  min-width: 260px;
+}
+
+.sidebar-logo {
+  font-size: 16px;
   font-weight: bold;
-  transition: 0.3s;
+  color: goldenrod;
+  letter-spacing: 3px;
+  white-space: nowrap;
+  opacity: 0;
+  transition: opacity 0.3s 0.2s;
 }
-
-.sidebar a:hover {
-  background-color: #000;
-  color: white;
-}
+.sidebar.open .sidebar-logo { opacity: 1; }
 
 .close-btn {
-  position: absolute;
-  top: 20px;
-  left: 20px;
-  font-size: 36px;
+  font-size: 28px;
+  color: goldenrod;
   background: none;
   border: none;
   cursor: pointer;
+  line-height: 1;
+  transition: color 0.2s, transform 0.2s;
+}
+.close-btn:hover { color: #fff; transform: rotate(90deg); }
+
+.sidebar nav {
+  display: flex;
+  flex-direction: column;
+  padding: 16px 0;
 }
 
+.sidebar nav a {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 14px 28px;
+  text-decoration: none;
+  font-size: 17px;
+  color: goldenrod;
+  font-weight: bold;
+  letter-spacing: 1px;
+  white-space: nowrap;
+  border-left: 3px solid transparent;
+  opacity: 0;
+  transform: translateX(20px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s,
+              opacity 0.3s, transform 0.3s;
+}
+.sidebar.open nav a { opacity: 1; transform: translateX(0); }
+.sidebar.open nav a:nth-child(1) { transition-delay: 0.15s; }
+.sidebar.open nav a:nth-child(2) { transition-delay: 0.22s; }
+.sidebar.open nav a:nth-child(3) { transition-delay: 0.29s; }
 
+.sidebar nav a:hover {
+  background: rgba(218, 165, 32, 0.1);
+  border-left-color: goldenrod;
+  color: #fff;
+}
+.sidebar nav a.active {
+  border-left-color: goldenrod;
+  color: #fff;
+  background: rgba(218, 165, 32, 0.08);
+}
 
+.nav-icon { font-size: 18px; opacity: 0.85; }
 
-
-
-
-
-
-
-
-
-header {
-  padding: 30px;
-  text-align: center;
-  background-color: #111;
-  box-shadow: 0 0 20px goldenrod;
-  text-transform: uppercase;
-  font-size: 24px;
+.sidebar-footer {
+  margin-top: auto;
+  padding: 16px 28px;
+  border-top: 1px solid rgba(218, 165, 32, 0.2);
+  font-size: 12px;
+  color: rgba(218, 165, 32, 0.4);
+  white-space: nowrap;
   letter-spacing: 2px;
 }
 
+/* ===== RECHERCHE ===== */
+.search-container {
+  margin: 40px auto 0;
+  text-align: center;
+}
+
+#search {
+  width: 60%;
+  max-width: 400px;
+  padding: 12px;
+  font-size: 16px;
+  border: 1px solid goldenrod;
+  border-radius: 5px;
+  background-color: #111;
+  color: goldenrod;
+  outline: none;
+  box-shadow: 0 0 10px goldenrod;
+}
+
+/* ===== CARDS DESTINATIONS ===== */
 .destinations {
   display: flex;
   flex-wrap: wrap;
@@ -97,6 +173,13 @@ header {
   transition: transform 0.3s;
 }
 
+.card a {
+  display: block;
+  width: 100%;
+  height: 100%;
+  text-decoration: none;
+}
+
 .card img {
   width: 100%;
   height: 100%;
@@ -105,11 +188,10 @@ header {
   transition: transform 0.5s ease;
 }
 
-.card:hover img {
-  transform: scale(1.1);
-}
+.card:hover img { transform: scale(1.1); }
 
-.overlay {
+/* Renommé overlay-card pour ne pas confliter avec l'overlay sidebar */
+.overlay-card {
   position: absolute;
   bottom: 0;
   background: rgba(218, 165, 32, 0.9);
@@ -120,47 +202,27 @@ header {
   transition: transform 0.3s ease-in-out;
 }
 
-.card:hover .overlay {
-  transform: translateY(0);
+.card:hover .overlay-card { transform: translateY(0); }
+
+.overlay-card h2 { margin: 0 0 10px; font-size: 22px; }
+.overlay-card p  { margin: 0; font-size: 16px; }
+
+/* Placeholder si pas d'image */
+.no-img {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #1a1a1a;
+  color: rgba(218, 165, 32, 0.4);
+  font-size: 14px;
+  letter-spacing: 1px;
 }
 
-.overlay h2 {
-  margin: 0 0 10px;
-  font-size: 22px;
-}
-
-.overlay p {
-  margin: 0;
-  font-size: 16px;
-}
-
-/* Responsive */
-@media screen and (max-width: 768px) {
-  .destinations {
-    flex-direction: column;
-    align-items: center;
-  }
-
-  .card {
-    width: 90%;
-    height: 300px;
-  }
-}
-
-.search-container {
-  margin: 30px auto 0;
-  text-align: center;
-}
-
-#search {
-  width: 60%;
-  max-width: 400px;
-  padding: 12px;
-  font-size: 16px;
-  border: 1px solid goldenrod;
-  border-radius: 5px;
-  background-color: #111;
-  color: goldenrod;
-  outline: none;
-  box-shadow: 0 0 10px goldenrod;
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .destinations { flex-direction: column; align-items: center; }
+  .card { width: 90%; height: 300px; }
+  #search { width: 85%; }
 }
