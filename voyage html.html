@@ -11,24 +11,40 @@
     <img src="new voyage.jpg" class="logo">
     
    
-    <button class="open-btn" onclick="openSidebar()">☰</button>
-  
-    <!-- Sidebar -->
-    <div id="sidebar" class="sidebar">
-      <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
-      <a href="voyage html.html">Accueil</a>
-      <a href="test.html">voyage</a>
-      <a href="contact.html">Contact</a>
-    </div>
-  
+<button class="open-btn" id="openBtn" onclick="openSidebar()">☰</button>
+
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">✈ LUXURY FLY</span>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+  </div>
+  <nav>
+    <a href="voyage html.html" class="active"><span class="nav-icon">🏠</span> Accueil</a>
+    <a href="test.html" ><span class="nav-icon">✈</span> Voyage</a>
+    <a href="contact.html" ><span class="nav-icon">✉</span> Contact</a>
+  </nav>
+  <div class="sidebar-footer">LUXURY FLY © 2025</div>
+</div>
+
     <script>
-      function openSidebar() {
-        document.getElementById("sidebar").style.width = "300px";
-      }
-  
-      function closeSidebar() {
-        document.getElementById("sidebar").style.width = "0";
-      }
+
+  // ===== SIDEBAR =====
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "260px";
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("openBtn").style.display = "none";
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+    document.getElementById("openBtn").style.display = "block";
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
     </script>
 
 

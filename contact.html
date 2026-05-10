@@ -25,7 +25,46 @@
   <div class="sidebar-footer">LUXURY FLY © 2025</div>
 </div>
 
+<main>
+  <section class="reservation-form">
+    <h2>Contactez-nous</h2>
+    <form action="whallah.php" method="POST">
+
+      <div class="row">
+        <div>
+          <label for="nom">Nom :</label>
+          <input type="text" id="nom" name="nom" required>
+        </div>
+        <div>
+          <label for="prenom">Prénom :</label>
+          <input type="text" id="prenom" name="prenom" required>
+        </div>
+      </div>
+
+      <label for="email">Email :</label>
+      <input type="email" id="email" name="mail" required>
+
+      <label for="sujet">Sujet :</label>
+      <select id="sujet" name="sujet" required>
+        <option value="PB_réservation">Problème de réservation</option>
+        <option value="PB_ticket">Problème de ticket</option>
+        <option value="question">Question</option>
+        <option value="autre">Autre</option>
+      </select>
+
+      <label for="message">Message :</label>
+      <textarea id="message" name="message" rows="5" required></textarea>
+
+      <div class="btform">
+        <button type="submit">Nous contacter</button>
+      </div>
+
+    </form>
+  </section>
+</main>
+
 <script>
+  // ===== SIDEBAR =====
   function openSidebar() {
     document.getElementById("sidebar").style.width = "260px";
     document.getElementById("sidebar").classList.add("open");
@@ -39,45 +78,24 @@
     document.getElementById("openBtn").style.display = "block";
   }
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+  // ===== MESSAGE DE SUCCÈS =====
+  // Le script est en bas de page donc le DOM est déjà prêt, pas besoin de DOMContentLoaded
+  const params = new URLSearchParams(window.location.search);
+  if (params.get("succes") === "1") {
+    const msg = document.createElement("div");
+    msg.innerHTML = "✅ Message envoyé avec succès !";
+    msg.style.cssText = `
+      position: fixed; top: 20px; left: 50%; transform: translateX(-50%);
+      background: #111; border: 1px solid goldenrod; color: goldenrod;
+      padding: 14px 28px; border-radius: 8px; font-family: Arial;
+      font-size: 15px; z-index: 9999; letter-spacing: 1px;
+    `;
+    document.body.appendChild(msg);
+    setTimeout(() => msg.remove(), 4000);
+    history.replaceState(null, "", "contact.html");
+  }
 </script>
-
-  <main>
-    <section class="reservation-form">
-      <h2>Contactez-nous</h2>
-      <form action="whallah.php" method="POST">
-
-        <div class="row">
-          <div>
-            <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" required>
-          </div>
-          <div>
-            <label for="prenom">Prénom :</label>
-            <input type="text" id="prenom" name="prenom" required>
-          </div>
-        </div>
-
-        <label for="email">Email :</label>
-        <input type="email" id="email" name="mail" required>
-
-        <label for="sujet">Sujet :</label>
-        <select id="sujet" name="sujet" required>
-          <option value="PB_réservation">Problème de réservation</option>
-          <option value="PB_ticket">Problème de ticket</option>
-          <option value="question">Question</option>
-          <option value="autre">Autre</option>
-        </select>
-
-        <label for="message">Message :</label>
-        <textarea id="message" name="message" rows="5" required></textarea>
-
-        <div class="btform">
-          <button type="submit">Nous contacter</button>
-        </div>
-
-      </form>
-    </section>
-  </main>
 
 </body>
 </html>
