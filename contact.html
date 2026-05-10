@@ -1,61 +1,83 @@
 <!DOCTYPE html>
 <html lang="fr">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Réservation - XTRAVEL</title>
-    <link rel="stylesheet" href="contact.css">
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Contact - LUXURY FLY</title>
+  <link rel="stylesheet" href="contact.css">
 </head>
 <body>
-    <form action="whallah.php" method="post" id="formulaire1"> 
 
-        <button class="open-btn" onclick="openSidebar()">☰</button>
-  
-        
-        <div id="sidebar" class="sidebar">
-          <a href="javascript:void(0)" class="close-btn" onclick="closeSidebar()">×</a>
-          <a href="voyage html.html">Accueil</a>
-          <a href="test.html">voyage</a>
-          <a href="contact.html">Contact</a>
-        </div>
-      
-        <script>
-          function openSidebar() {
-            document.getElementById("sidebar").style.width = "300px";
-          }
-      
-          function closeSidebar() {
-            document.getElementById("sidebar").style.width = "0";
-          }
-        </script>
+<button class="open-btn" id="openBtn" onclick="openSidebar()">☰</button>
 
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
 
-    
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">✈ LUXURY FLY</span>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+  </div>
+  <nav>
+    <a href="voyage html.html"><span class="nav-icon">🏠</span> Accueil</a>
+    <a href="test.html"><span class="nav-icon">✈</span> Voyage</a>
+    <a href="contact.html" class="active"><span class="nav-icon">✉</span> Contact</a>
+  </nav>
+  <div class="sidebar-footer">LUXURY FLY © 2025</div>
+</div>
+
+<script>
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "260px";
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("openBtn").style.display = "none";
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+    document.getElementById("openBtn").style.display = "block";
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+</script>
+
+  <main>
     <section class="reservation-form">
-        <h2>Contactez-nous</h2>
-       <section class="l"> <form action="reservation_process.php" method="POST">
+      <h2>Contactez-nous</h2>
+      <form action="whallah.php" method="POST">
+
+        <div class="row">
+          <div>
             <label for="nom">Nom :</label>
-            <input type="text" id="nom" name="nom" required></section>
-
-           <section class="l"><label for="email">Email :</label>
-            <input type="email" id="email" name="email" required></section> 
-
-            <label for="Sujet">Sujet :</label>
-            <select id="Sujet" name="Sujet" required>
-                <option value="paris">Probleme de reservation</option>
-                <option value="new-york">Avis</option>
-                <option value="tokyo">Autre</option>
-            </select>
-
-            <label for="Message">Message:</label>
-            <input type="text" id="message" name="message" required>
-
-<div class="btform">
-            <button type="submit" form="formulaire1">Nous contacter</button>
+            <input type="text" id="nom" name="nom" required>
+          </div>
+          <div>
+            <label for="prenom">Prénom :</label>
+            <input type="text" id="prenom" name="prenom" required>
+          </div>
         </div>
-        </form>
+
+        <label for="email">Email :</label>
+        <input type="email" id="email" name="mail" required>
+
+        <label for="sujet">Sujet :</label>
+        <select id="sujet" name="sujet" required>
+          <option value="PB_réservation">Problème de réservation</option>
+          <option value="PB_ticket">Problème de ticket</option>
+          <option value="question">Question</option>
+          <option value="autre">Autre</option>
+        </select>
+
+        <label for="message">Message :</label>
+        <textarea id="message" name="message" rows="5" required></textarea>
+
+        <div class="btform">
+          <button type="submit">Nous contacter</button>
+        </div>
+
+      </form>
     </section>
+  </main>
 
 </body>
 </html>
