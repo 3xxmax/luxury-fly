@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXURY FLY - Détail</title>
+  <link rel="stylesheet" href="detail.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<button class="open-btn" id="openBtn" onclick="openSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">✈ LUXURY FLY</span>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+  </div>
+  <nav>
+    <a href="index.html"><span class="fa-solid fa-house"></span> Accueil</a>
+    <a href="voyage.html"><span class="nav-icon">✈</span> Voyage</a>
+    <a href="contact.html"><span class="nav-icon">✉</span> Contact</a>
+  </nav>
+  <div class="sidebar-footer">LUXURY FLY © 2025</div>
+</div>
+
+<main id="contenu">
+  <p class="chargement">Chargement...</p>
+</main>
+
+<script>
+  // ===== SIDEBAR =====
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "260px";
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("openBtn").style.display = "none";
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+    document.getElementById("openBtn").style.display = "block";
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+  // ===== CARROUSEL =====
+  let indexActuel = 0;
+
+  function changerSlide(direction) {
+    const slides = document.querySelectorAll(".slide");
+    slides[indexActuel].classList.remove("active");
+    indexActuel = (indexActuel + direction + slides.length) % slides.length;
+    slides[indexActuel].classList.add("active");
+    majPoints();
+  }
+
+  function allerSlide(index) {
+    const slides = document.querySelectorAll(".slide");
+    slides[indexActuel].classList.remove("active");
+    indexActuel = index;
+    slides[indexActuel].classList.add("active");
+    majPoints();
+  }
+
+  function majPoints() {
+    document.querySelectorAll(".point").forEach((p, i) => {
+      p.classList.toggle("active", i === indexActuel);
+    });
+  }
+
+  // ===== CHARGEMENT =====
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get("id");
+
+  if (!id) {
+    document.getElementById("contenu").innerHTML =
+      '<p class="chargement">Aucun voyage sélectionné. <a href="test.html">Retour</a></p>';
+  } else {
+    fetch(`detail.php?id=${id}`)
+      .then(res => res.json())
+      .then(v => {
+        if (v.erreur) {
+          document.getElementById("contenu").innerHTML =
+            `<p class="chargement">${v.erreur}</p>`;
+          return;
+        }
+
+        // Slides du carrousel
+        const slides = v.images.length > 0
+          ? v.images.map((img, i) => `
+              <div class="slide ${i === 0 ? 'active' : ''}">
+                <img src="${img}" alt="${v.libelle}" />
+              </div>
+            `).join("")
+          : `<div class="slide active"><div class="no-img">Pas d'image</div></div>`;
+
+        // Points de navigation
+        const points = v.images.length > 1
+          ? v.images.map((_, i) => `
+              <span class="point ${i === 0 ? 'active' : ''}"
+                    onclick="allerSlide(${i})"></span>
+            `).join("")
+          : "";
+
+        // Flèches si plusieurs images
+        const fleches = v.images.length > 1 ? `
+          <button class="fleche fleche-gauche" onclick="changerSlide(-1)">&#8249;</button>
+          <button class="fleche fleche-droite" onclick="changerSlide(1)">&#8250;</button>
+        ` : "";
+
+        document.getElementById("contenu").innerHTML = `
+          <a href="voyage.html" class="retour">← Retour aux destinations</a>
+
+          <div class="detail-wrapper">
+
+            <div class="carrousel">
+              <div class="carrousel-piste">
+                ${slides}
+              </div>
+              ${fleches}
+              ${points ? `<div class="points">${points}</div>` : ""}
+            </div>
+
+            <div class="detail-infos">
+              <h1>${v.libelle}</h1>
+              <p class="prix">À partir de <span>${parseInt(v.prix).toLocaleString('fr-FR')}€</span></p>
+              <p class="description">${v.description}</p>
+              <a href="reservation.html?id=${v.id}&destination=${encodeURIComponent(v.libelle)}"
+                 class="btn-reserver">
+                ✈ Réserver un billet
+              </a>
+            </div>
+
+          </div>
+        `;
+      })
+      .catch(() => {
+        document.getElementById("contenu").innerHTML =
+          '<p class="chargement">Erreur de chargement.</p>';
+      });
+  }
+</script>
+
+</body>
+</html>

@@ -1,0 +1,266 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>LUXURY FLY - Réservation</title>
+  <link rel="stylesheet" href="reservation.css"/>
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+<button class="open-btn" id="openBtn" onclick="openSidebar()">☰</button>
+<div class="overlay" id="overlay" onclick="closeSidebar()"></div>
+
+<div id="sidebar" class="sidebar">
+  <div class="sidebar-header">
+    <span class="sidebar-logo">✈ LUXURY FLY</span>
+    <button class="close-btn" onclick="closeSidebar()">×</button>
+  </div>
+  <nav>
+    <a href="index.html"><span class="fa-solid fa-house"></span> Accueil</a>
+    <a href="voyage.html"><span class="nav-icon">✈</span> Voyage</a>
+    <a href="contact.html"><span class="nav-icon">✉</span> Contact</a>
+  </nav>
+  <div class="sidebar-footer">LUXURY FLY © 2025</div>
+</div>
+
+<!-- FORMULAIRE -->
+<main id="formulaire-section">
+  <section class="resa-form">
+    <h2>Réserver votre billet</h2>
+
+    <div class="row">
+      <div>
+        <label>Nom :</label>
+        <input type="text" id="nom" placeholder="Dupont" required>
+      </div>
+      <div>
+        <label>Prénom :</label>
+        <input type="text" id="prenom" placeholder="Marie" required>
+      </div>
+    </div>
+
+    <label>Email :</label>
+    <input type="email" id="email" placeholder="marie@example.com" required>
+
+    <label>Destination :</label>
+    <input type="text" id="destination" readonly>
+
+    <div class="row">
+      <div>
+        <label>Date de départ :</label>
+        <input type="date" id="date_depart" required>
+      </div>
+      <div>
+        <label>Date de retour :</label>
+        <input type="date" id="date_retour" required>
+      </div>
+    </div>
+
+    <label>Nombre de passagers :</label>
+    <div class="passagers-ctrl">
+      <button type="button" onclick="modifierPassagers(-1)">−</button>
+      <span id="nbPassagers">1</span>
+      <button type="button" onclick="modifierPassagers(1)">+</button>
+    </div>
+
+    <p id="erreur" class="erreur"></p>
+
+    <div class="btform">
+      <button type="button" id="btnReserver" onclick="soumettre()">
+        ✈ Confirmer la réservation
+      </button>
+    </div>
+  </section>
+</main>
+
+
+
+
+<!-- TICKET (caché au départ) -->
+<div id="ticket-section" class="ticket-section" style="display:none;">
+  <div class="ticket">
+    <div class="ticket-header">
+      <span class="ticket-logo">✈ LUXURY FLY</span>
+      <span class="ticket-badge">BILLET CONFIRMÉ</span>
+    </div>
+
+    <div class="ticket-decoupe"></div>
+
+  <div class="ticket-body">
+  <h2 id="t-destination"></h2>
+</div>
+
+    <div class="ticket-decoupe"></div>
+
+    <div class="ticket-infos">
+      <div class="ticket-ligne">
+        <div class="ticket-col">
+          <span class="ticket-label">Passager</span>
+          <span class="ticket-valeur" id="t-passager"></span>
+        </div>
+        <div class="ticket-col">
+          <span class="ticket-label">Email</span>
+          <span class="ticket-valeur" id="t-email"></span>
+        </div>
+      </div>
+      <div class="ticket-ligne">
+        <div class="ticket-col">
+          <span class="ticket-label">Départ</span>
+          <span class="ticket-valeur" id="t-depart"></span>
+        </div>
+        <div class="ticket-col">
+          <span class="ticket-label">Retour</span>
+          <span class="ticket-valeur" id="t-retour"></span>
+        </div>
+      </div>
+      <div class="ticket-ligne">
+        <div class="ticket-col">
+          <span class="ticket-label">Passagers</span>
+          <span class="ticket-valeur" id="t-passagers"></span>
+        </div>
+        <div class="ticket-col">
+          <span class="ticket-label">Réf.</span>
+          <span class="ticket-valeur" id="t-ref"></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="ticket-decoupe"></div>
+
+    <div class="ticket-footer">
+      <div class="barcode">
+        <div class="barcode-lines"></div>
+        <span id="t-barcode"></span>
+      </div>
+    </div>
+
+    <div class="ticket-actions">
+      <button onclick="imprimer()">🖨 Imprimer</button>
+      <a href="voyage.html">← Retour aux destinations</a>
+    </div>
+  </div>
+</div>
+
+<script>
+  // ===== SIDEBAR =====
+  function openSidebar() {
+    document.getElementById("sidebar").style.width = "260px";
+    document.getElementById("sidebar").classList.add("open");
+    document.getElementById("overlay").classList.add("show");
+    document.getElementById("openBtn").style.display = "none";
+  }
+  function closeSidebar() {
+    document.getElementById("sidebar").style.width = "0";
+    document.getElementById("sidebar").classList.remove("open");
+    document.getElementById("overlay").classList.remove("show");
+    document.getElementById("openBtn").style.display = "block";
+  }
+  document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
+
+  // ===== PRÉ-REMPLIR DESTINATION =====
+  const urlParams = new URLSearchParams(window.location.search);
+  const destination = urlParams.get("destination") || "";
+  document.getElementById("destination").value = destination;
+
+  // Date min = aujourd'hui
+  const today = new Date().toISOString().split("T")[0];
+  document.getElementById("date_depart").min = today;
+  document.getElementById("date_retour").min = today;
+  document.getElementById("date_depart").addEventListener("change", function() {
+    document.getElementById("date_retour").min = this.value;
+  });
+
+  // ===== PASSAGERS =====
+  let nbPassagers = 1;
+  function modifierPassagers(delta) {
+    nbPassagers = Math.min(20, Math.max(1, nbPassagers + delta));
+    document.getElementById("nbPassagers").textContent = nbPassagers;
+  }
+
+  // ===== CODE DESTINATION (ex: NEW YORK → NYC) =====
+  const codes = {
+    "paris": "CDG→ORY", "new york": "NYC", "tokyo": "TYO",
+    "dubai": "DXB", "espagne": "BCN", "suisse": "GVA"
+  };
+  function getCode(dest) {
+    return codes[dest.toLowerCase()] ?? dest.substring(0, 3).toUpperCase();
+  }
+
+  // ===== FORMAT DATE =====
+  function formatDate(dateStr) {
+    const [y, m, d] = dateStr.split("-");
+    return `${d}/${m}/${y}`;
+  }
+
+  // ===== SOUMETTRE =====
+  function soumettre() {
+    const nom         = document.getElementById("nom").value.trim();
+    const prenom      = document.getElementById("prenom").value.trim();
+    const email       = document.getElementById("email").value.trim();
+    const destination = document.getElementById("destination").value.trim();
+    const date_depart = document.getElementById("date_depart").value;
+    const date_retour = document.getElementById("date_retour").value;
+    const erreurEl    = document.getElementById("erreur");
+
+    erreurEl.textContent = "";
+
+    if (!nom || !prenom || !email || !date_depart || !date_retour) {
+      erreurEl.textContent = "Veuillez remplir tous les champs.";
+      return;
+    }
+    if (date_retour <= date_depart) {
+      erreurEl.textContent = "La date de retour doit être après le départ.";
+      return;
+    }
+
+    const btn = document.getElementById("btnReserver");
+    btn.disabled = true;
+    btn.textContent = "Envoi en cours...";
+
+    fetch("reservation.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ nom, prenom, email, destination,
+                             date_depart, date_retour,
+                             passagers: nbPassagers })
+    })
+    .then(res => res.json())
+    .then(data => {
+      if (data.erreur) {
+        erreurEl.textContent = data.erreur;
+        btn.disabled = false;
+        btn.textContent = "✈ Confirmer la réservation";
+        return;
+      }
+      afficherTicket(data);
+    })
+    .catch(() => {
+      erreurEl.textContent = "Erreur de connexion au serveur.";
+      btn.disabled = false;
+      btn.textContent = "✈ Confirmer la réservation";
+    });
+  }
+
+  // ===== AFFICHER TICKET =====
+  function afficherTicket(data) {
+    document.getElementById("t-destination").textContent = data.destination;
+
+    document.getElementById("t-passager").textContent    = `${data.prenom} ${data.nom}`;
+    document.getElementById("t-email").textContent       = data.email;
+    document.getElementById("t-depart").textContent      = formatDate(data.date_depart);
+    document.getElementById("t-retour").textContent      = formatDate(data.date_retour);
+    document.getElementById("t-passagers").textContent   = data.passagers;
+    document.getElementById("t-ref").textContent         = "LF-" + String(data.id).padStart(5, "0");
+    document.getElementById("t-barcode").textContent     = "LF" + String(data.id).padStart(8, "0");
+
+    document.getElementById("formulaire-section").style.display = "none";
+    document.getElementById("ticket-section").style.display     = "flex";
+  }
+
+  function imprimer() { window.print(); }
+</script>
+
+</body>
+</html>

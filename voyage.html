@@ -4,7 +4,8 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>LUXURY FLY - Destinations</title>
-  <link rel="stylesheet" href="test.css" />
+  <link rel="stylesheet" href="voyage.css" />
+   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body>
 
@@ -18,8 +19,8 @@
     <button class="close-btn" onclick="closeSidebar()">×</button>
   </div>
   <nav>
-    <a href="index.html"><span class="nav-icon">🏠</span> Accueil</a>
-    <a href="test.html" class="active"><span class="nav-icon">✈</span> Voyage</a>
+    <a href="index.html"><span class="fa-solid fa-house"></span> Accueil</a>
+    <a href="voyage.html" class="active"><span class="nav-icon">✈</span> Voyage</a>
     <a href="contact.html"><span class="nav-icon">✉</span> Contact</a>
   </nav>
   <div class="sidebar-footer">LUXURY FLY © 2025</div>
@@ -49,6 +50,9 @@
   }
   document.addEventListener("keydown", e => { if (e.key === "Escape") closeSidebar(); });
 
+
+
+
   // ===== CHARGEMENT DES VOYAGES =====
   fetch("voyage.php")
     .then(res => res.json())
@@ -69,7 +73,7 @@
             }
             <div class="overlay-card">
               <h2>${v.libelle}</h2>
-              <p>À partir de ${parseInt(v.prix).toLocaleString('fr-FR')}€</p>
+              <p>À 1partir de ${parseInt(v.prix).toLocaleString('fr-FR')}€</p>
             </div>
           </a>
         </div>
@@ -80,6 +84,10 @@
         '<p class="chargement">Erreur de chargement des destinations.</p>';
       console.error(err);
     });
+
+
+
+
 
   // ===== RECHERCHE =====
   function filtrer() {

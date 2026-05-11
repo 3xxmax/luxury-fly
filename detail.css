@@ -1,0 +1,272 @@
+/* ===== RESET & BASE ===== */
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: Arial, sans-serif;
+  background-color: #000;
+  color: goldenrod;
+  min-height: 100vh;
+}
+
+/* ===== BOUTON HAMBURGER ===== */
+.open-btn {
+  font-size: 26px;
+  background-color: goldenrod;
+  border-radius: 6px;
+  color: #000;
+  border: none;
+  cursor: pointer;
+  position: fixed;
+  top: 12px;
+  right: 16px;
+  padding: 6px 12px;
+  z-index: 150;
+  line-height: 1;
+  transition: background 0.2s, transform 0.2s;
+}
+.open-btn:hover { background: #cda434; transform: scale(1.08); }
+
+/* ===== OVERLAY ===== */
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.6);
+  z-index: 90;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s;
+}
+.overlay.show { opacity: 1; pointer-events: all; }
+
+/* ===== SIDEBAR ===== */
+.sidebar {
+  height: 100%; width: 0;
+  position: fixed; right: 0; top: 0;
+  background: #0a0a0a;
+  border-left: 2px solid goldenrod;
+  overflow-x: hidden;
+  transition: width 0.4s cubic-bezier(.77,0,.18,1);
+  z-index: 100;
+  display: flex; flex-direction: column;
+}
+.sidebar-header {
+  display: flex; align-items: center;
+  justify-content: space-between;
+  padding: 18px 20px 14px;
+  border-bottom: 1px solid rgba(218,165,32,0.3);
+  min-width: 260px;
+}
+.sidebar-logo {
+  font-size: 16px; font-weight: bold;
+  color: goldenrod; letter-spacing: 3px;
+  white-space: nowrap; opacity: 0;
+  transition: opacity 0.3s 0.2s;
+}
+.sidebar.open .sidebar-logo { opacity: 1; }
+.close-btn {
+  font-size: 28px; color: goldenrod;
+  background: none; border: none; cursor: pointer;
+  line-height: 1; transition: color 0.2s, transform 0.2s;
+}
+.close-btn:hover { color: #fff; transform: rotate(90deg); }
+.sidebar nav { display: flex; flex-direction: column; padding: 16px 0; }
+.sidebar nav a {
+  display: flex; align-items: center; gap: 14px;
+  padding: 14px 28px; text-decoration: none;
+  font-size: 17px; color: goldenrod; font-weight: bold;
+  letter-spacing: 1px; white-space: nowrap;
+  border-left: 3px solid transparent;
+  opacity: 0; transform: translateX(20px);
+  transition: background 0.2s, border-color 0.2s, color 0.2s,
+              opacity 0.3s, transform 0.3s;
+}
+.sidebar.open nav a { opacity: 1; transform: translateX(0); }
+.sidebar.open nav a:nth-child(1) { transition-delay: 0.15s; }
+.sidebar.open nav a:nth-child(2) { transition-delay: 0.22s; }
+.sidebar.open nav a:nth-child(3) { transition-delay: 0.29s; }
+.sidebar nav a:hover { background: rgba(218,165,32,0.1); border-left-color: goldenrod; color: #fff; }
+.sidebar nav a.active { border-left-color: goldenrod; color: #fff; background: rgba(218,165,32,0.08); }
+.nav-icon { font-size: 18px; opacity: 0.85; }
+.sidebar-footer {
+  margin-top: auto; padding: 16px 28px;
+  border-top: 1px solid rgba(218,165,32,0.2);
+  font-size: 12px; color: rgba(218,165,32,0.4);
+  white-space: nowrap; letter-spacing: 2px;
+}
+
+/* ===== MAIN ===== */
+main {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 40px 20px 80px;
+}
+
+.retour {
+  display: inline-block;
+  color: goldenrod;
+  text-decoration: none;
+  font-size: 14px;
+  letter-spacing: 1px;
+  margin-bottom: 36px;
+  border-bottom: 1px solid transparent;
+  transition: border-color 0.2s;
+}
+.retour:hover { border-bottom-color: goldenrod; }
+
+/* ===== LAYOUT ===== */
+.detail-wrapper {
+  display: flex;
+  gap: 50px;
+  align-items: flex-start;
+}
+
+/* ===== CARROUSEL ===== */
+.carrousel {
+  flex: 1.2;
+  position: relative;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 2px solid goldenrod;
+  box-shadow: 0 0 24px rgba(218,165,32,0.3);
+  background: #111;
+}
+
+.carrousel-piste {
+  position: relative;
+  width: 100%;
+  height: 460px;
+}
+
+.slide {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 0.6s ease;
+}
+.slide.active { opacity: 1; }
+
+.slide img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+}
+
+.no-img {
+  width: 100%; height: 100%;
+  display: flex; align-items: center; justify-content: center;
+  color: rgba(218,165,32,0.3);
+  font-size: 14px; letter-spacing: 2px;
+}
+
+/* Flèches */
+.fleche {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: rgba(0,0,0,0.55);
+  border: 1px solid goldenrod;
+  color: goldenrod;
+  font-size: 32px;
+  padding: 6px 14px;
+  cursor: pointer;
+  z-index: 10;
+  line-height: 1;
+  transition: background 0.2s;
+  border-radius: 4px;
+}
+.fleche:hover { background: rgba(218,165,32,0.25); }
+.fleche-gauche { left: 12px; }
+.fleche-droite { right: 12px; }
+
+/* Points */
+.points {
+  position: absolute;
+  bottom: 14px;
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  gap: 8px;
+  z-index: 10;
+}
+.point {
+  width: 10px; height: 10px;
+  border-radius: 50%;
+  background: rgba(218,165,32,0.35);
+  border: 1px solid goldenrod;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+.point.active { background: goldenrod; }
+
+/* ===== INFOS ===== */
+.detail-infos {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 10px;
+}
+
+.detail-infos h1 {
+  font-size: 40px;
+  letter-spacing: 4px;
+  color: goldenrod;
+  text-transform: uppercase;
+}
+
+.prix {
+  font-size: 18px;
+  color: rgba(218,165,32,0.7);
+}
+.prix span {
+  font-size: 30px;
+  font-weight: bold;
+  color: goldenrod;
+}
+
+.description {
+  font-size: 15px;
+  line-height: 1.8;
+  color: rgba(218,165,32,0.75);
+  border-left: 3px solid goldenrod;
+  padding-left: 16px;
+}
+
+.btn-reserver {
+  display: inline-block;
+  background: goldenrod;
+  color: #000;
+  padding: 16px 36px;
+  border-radius: 6px;
+  font-size: 16px;
+  font-weight: bold;
+  text-decoration: none;
+  letter-spacing: 2px;
+  text-align: center;
+  transition: background 0.2s, transform 0.2s;
+  margin-top: 10px;
+  align-self: flex-start;
+}
+.btn-reserver:hover {
+  background: #cda434;
+  transform: scale(1.03);
+}
+
+.chargement {
+  text-align: center;
+  color: rgba(218,165,32,0.5);
+  font-size: 14px;
+  letter-spacing: 2px;
+  padding: 80px 20px;
+}
+.chargement a { color: goldenrod; }
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 768px) {
+  .detail-wrapper { flex-direction: column; gap: 30px; }
+  .carrousel-piste { height: 280px; }
+  .detail-infos h1 { font-size: 28px; }
+  .prix span { font-size: 24px; }
+  .btn-reserver { align-self: stretch; }
+}
